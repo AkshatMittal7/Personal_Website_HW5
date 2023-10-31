@@ -5,12 +5,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Akshat Mittal - Portfolio</title>
-    <meta name="description" content="Personal portfolio and recruitment website for Akshat Mittal.">
+    <meta name="description" content="Portfolio showcasing projects and work experience of Akshat Mittal.">
     <link rel="icon" href="path_to_your_favicon.ico" type="image/x-icon">
+
+    <!-- Custom Font with Fallback (Requirement 3) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-       body {
-           border: 1px solid black;
-       }
+        /* CSS Variables with Fallback (Requirement 2) */
+        :root {
+            --primary-color: color(display-p3 0.2 0.3 0.7 / 1);
+            --font-size-base: 16px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif; /* Custom font with fallback */
+            font-size: var(--font-size-base, 16px); /* Using CSS Variable with Fallback */
+        }
+
+        header, footer {
+            background-color: var(--primary-color);
+            color: white;
+            max-height: 20vh;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav a {
+            padding: 0.5rem 1rem;
+            margin: 0.5rem;
+            background-color: white;
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s; /* Transitions (Requirement 6) */
+        }
+
+        nav a:hover {
+            background-color: color-mix(in display-p3, var(--primary-color) 70%, yellow 30%);
+        }
+
+        main {
+            padding: 2rem;
+            display: flex; /* Flexbox for layout (Requirement 1) */
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        section:has(h2) {
+            border: 2px solid #e74c3c;
+        }
+
+        header h1 {
+            animation: pulse 5s infinite;
+        }
+
+        /* Media Query Example */
+        @media screen and (min-width: 768px) {
+            body {
+                font-size: calc(var(--font-size-base) * 1.2); /* Using calc with CSS Variable */
+            }
+        }
     </style>
 </head>
 

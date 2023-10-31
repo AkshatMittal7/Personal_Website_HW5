@@ -4,76 +4,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akshat Mittal - Portfolio</title>
-    <meta name="description" content="Personal portfolio and recruitment website for Akshat Mittal.">
+    <title>Akshat Mittal - Contact</title>
+    <meta name="description" content="Contact page for Akshat Mittal.">
+
+    <!-- Custom Font with Fallback (Requirement 3) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Variables with Fallback (Requirement 2) */
+        :root {
+            --primary-color: color(display-p3 0.2 0.3 0.7 / 1);
+            --font-size-base: 16px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif; /* Custom font with fallback */
+            font-size: var(--font-size-base, 16px); /* Using CSS Variable with Fallback */
+            border: 1px solid black;
+        }
+
+        header, footer {
+            background-color: var(--primary-color);
+            color: white;
+            max-height: 20vh;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav a {
+            padding: 0.5rem 1rem;
+            margin: 0.5rem;
+            background-color: white;
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s; /* Transitions (Requirement 6) */
+        }
+
+        nav a:hover {
+            background-color: color-mix(in display-p3, var(--primary-color) 70%, yellow 30%);
+        }
+
+        main {
+            padding: 2rem;
+            display: flex; /* Flexbox for layout (Requirement 1) */
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        section:has(h2) {
+            border: 2px solid #e74c3c;
+        }
+
+        header h1 {
+            animation: pulse 5s infinite;
+        }
+
+        /* Media Query Example */
+        @media screen and (min-width: 768px) {
+            body {
+                font-size: calc(var(--font-size-base) * 1.2); /* Using calc with CSS Variable */
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-    <h1>Welcome to Akshat Mittal's Portfolio</h1>
+    <header>
+        <h1>Welcome to Akshat Mittal's Portfolio</h1>
         <nav>
             <a href="index.html">Home</a> |
             <a href="about.html">Resume</a> |
             <a href="portfolio.html">Portfolio</a> |
             <a href="contact.html">Contact</a>
         </nav>
-</header>
+    </header>
 
-<main>
-    <section>
-        <h2>Contact Me</h2>
-        <form action="path_to_server_script" method="post">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name">
+    <main>
+        <section>
+            <h2>Contact Me</h2>
+            <form action="path_to_server_script" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name">
+                <label for="subject">Subject:</label>
+                <input list="subjects" name="subject" id="subject">
+                <datalist id="subjects">
+                    <option value="Job Opportunity">
+                    <option value="Collaboration">
+                    <option value="General Query">
+                </datalist>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message"></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
 
-            <label for="subject">Subject:</label>
-            <input list="subjects" name="subject" id="subject">
-            <datalist id="subjects">
-                <option value="Job Opportunity">
-                <option value="Collaboration">
-                <option value="General Query">
-            </datalist>
+        <section>
+            <h2>Contact Details</h2>
+            <table>
+                <colgroup>
+                    <col span="1" style="background-color:gray">
+                    <col style="background-color:yellow">
+                </colgroup>
+                <tr>
+                    <td>Email:</td>
+                    <td><a href="mailto:a1mittal@ucsd.edu">a1mittal@ucsd.edu</a></td>
+                </tr>
+                <tr>
+                    <td>Phone:</td>
+                    <td>6199958469</td>
+                </tr>
+            </table>
+        </section>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email">
+        <template id="my-template">
+            <p>This is a template. It's not rendered on the page unless activated via JavaScript.</p>
+        </template>
 
-            <label for="message">Message:</label>
-            <textarea id="message" name="message"></textarea>
+    </main>
 
-            <input type="submit" value="Submit">
-            <button type="submit">Submit</button>
-        </form>
-    </section>
-
-    <section>
-        <h2>Contact Details</h2>
-        <table>
-            <colgroup>
-                <col span="1" style="background-color:gray">
-                <col style="background-color:yellow">
-            </colgroup>
-            <tr>
-                <td>Email:</td>
-                <td><a href="mailto:a1mittal@ucsd.edu">a1mittal@ucsd.edu</a></td>
-            </tr>
-            <tr>
-                <td>Phone:</td>
-                <td>6199958469</td>
-            </tr>
-        </table>
-    </section>
-    
-    <template id="my-template">
-        <p>This is a template. It's not rendered on the page unless activated via JavaScript.</p>
-    </template>
-    
-</main>
-
-<footer>
-    <p>Connect with me on <a href="https://www.linkedin.com/in/akshatmittal15/">LinkedIn</a> or <a href="https://github.com/AkshatMittal7">GitHub</a>.</p>
-    <p>© 2023 Akshat Mittal. All rights reserved.</p>
-</footer>
+    <footer>
+        <p>Connect with me on <a href="https://www.linkedin.com/in/akshatmittal15/">LinkedIn</a> or 
+                    <a href="https://github.com/AkshatMittal7">GitHub</a>.</p>
+        <p>© 2023 Akshat Mittal. All rights reserved.</p>
+    </footer>
 
 </body>
 </html>
+
