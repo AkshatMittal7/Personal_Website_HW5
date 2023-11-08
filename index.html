@@ -13,7 +13,8 @@
     <style>
         /* CSS Variables with Fallback (Requirement 2) */
         :root {
-            --primary-color: color(display-p3 0.2 0.3 0.7 / 1);
+            --primary-color: #1e90ff; /* Fallback color */
+            --primary-color-fallback: #1e90ff; /* Fallback color for older browsers */
             --font-size-base: 16px;
         }
 
@@ -27,7 +28,7 @@
         }
 
         header, footer {
-            background-color: var(--primary-color);
+            background-color: var(--primary-color-fallback);
             color: white;
             max-height: 20vh;
             padding: 1rem;
@@ -41,17 +42,17 @@
         }
 
         nav a {
-            padding: 0.5rem;
+            padding: 0.5rem 1rem;
             margin: 0.5rem;
             background-color: white;
-            color: var(--primary-color);
+            color: var(--primary-color-fallback);
             text-decoration: none;
             border-radius: 8px;
             transition: background-color 0.3s; /* Transitions (Requirement 6) */
         }
 
         nav a:hover {
-            background-color: color-mix(in display-p3, var(--primary-color) 70%, yellow 30%);
+            background-color: #ffd700;
         }
 
         main {
