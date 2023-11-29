@@ -241,6 +241,7 @@
                 // Check validity on all form fields
                 const elements = form.elements;
                 for (let i = 0; i < elements.length; i++) {
+                    console.log(elements[i].name, elements[i].validity);
                     if (!elements[i].checkValidity()) {
                         formErrors.push({
                             field: elements[i].name,
@@ -248,6 +249,8 @@
                         });
                     }
                 }
+
+                console.log('Form Errors:', formErrors);
 
                 document.getElementById('form-errors').value = JSON.stringify(formErrors);
 
