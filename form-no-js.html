@@ -95,18 +95,29 @@
             color: red;
         }
 
-        .error-flash {
-            animation: flash-error 0.3s;
+        input:required, textarea:required {
+            border: 1px solid red;
         }
 
-        @keyframes flash-error {
-            50% { background-color: #ffcccc; }
+        input:valid, textarea:valid {
+            border: 1px solid green;
+        }
+
+        input:invalid:not(:focus), textarea:invalid:not(:focus) {
+            background-color: #ffdddd;
+        }
+
+        input:valid:not(:focus), textarea:valid:not(:focus) {
+            background-color: #ddffdd;
+        }
+
+        input:user-invalid, textarea:user-invalid {
+            border: 1px solid orange;
         }
     </style>
 </head>
 
 <body>
-
     <header>
         <h1>Welcome to Akshat Mittal's Portfolio</h1>
         <nav>
@@ -140,24 +151,24 @@
             -->
             <form action="https://httpbin.org/post" method="post" id="contactForm">
                 <div class="form-group">
-                    <label for="name">Name:</label>
+                    <label for="name">Name (required):</label>
                     <input type="text" id="name" name="name" required>
                     <output id="nameError" class="error-message"></output>
                     <output id="nameInfo" class="info-message"></output>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email:</label>
+                    <label for="email">Email (required):</label>
                     <input type="email" id="email" name="email" required>
                     <output id="emailError" class="error-message"></output>
                     <output id="emailInfo" class="info-message"></output>
                 </div>
                 <div class="form-group">
-                    <label for="comments">Comments:</label>
-                    <textarea id="comments" name="comments" required minlength="20" maxlength="500" pattern="[A-Za-z0-9\s.,!?'-]*"></textarea>
+                    <label for="comments">Comments (required):</label>
+                    <textarea id="comments" name="comments" required minlength="20" maxlength="500" 
+                    pattern="[A-Za-z0-9\s.,!?'-]*"></textarea>
                     <output id="commentsError" class="error-message"></output>
                     <output id="commentsInfo" class="info-message"></output>
                 </div>
-                <input type="hidden" id="form-errors" name="form-errors" value="">
                 <input type="hidden" name="possible_bot" value="true">
                 <button type="submit">Submit</button>
             </form>
@@ -192,91 +203,6 @@
                     <a href="https://github.com/AkshatMittal7">GitHub</a>.</p>
         <p>© 2023 Akshat Mittal. All rights reserved.</p>
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const form = document.getElementById('contactForm');
-            let formErrors = [];
-
-            const email = document.getElementById('email');
-            email.addEventListener('input', function(event) {
-                if (email.validity.typeMismatch) {
-                    email.setCustomValidity('Please enter a valid email address.');
-                } else {
-                    email.setCustomValidity('');
-                }
-            });
-
-            const comments = document.getElementById('comments');
-            comments.addEventListener('input', function(event) {
-                const maxLength = comments.getAttribute('maxlength');
-                const currentLength = comments.value.length;
-                const remaining = maxLength - currentLength;
-                const commentsInfo = document.getElementById('commentsInfo');
-
-                commentsInfo.textContent = `${remaining} characters remaining`;
-
-                if (remaining <= 10) {
-                    commentsInfo.style.color = 'orange';
-                } else {
-                    commentsInfo.style.color = 'black';
-                }
-
-                if (remaining <= 0) {
-                    commentsInfo.style.color = 'red';
-                }
-                
-                const pattern = new RegExp(comments.getAttribute('pattern'));
-                if (!pattern.test(comments.value)) {
-                    comments.classList.add('error-flash');
-                    setTimeout(() => comments.classList.remove('error-flash'), 1000);
-                    document.getElementById('commentsError').textContent = 'Illegal character detected!';
-                } else {
-                    document.getElementById('commentsError').textContent = '';
-                }
-            });
-
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-                // Check validity on all form fields
-                const elements = form.elements;
-                for (let i = 0; i < elements.length; i++) {
-                    if (!elements[i].checkValidity()) {
-                        formErrors.push({
-                            field: elements[i].name,
-                            type: elements[i].validationMessage
-                        });
-                    }
-                }
-
-                document.getElementById('form-errors').value = JSON.stringify(formErrors);
-
-                // Add the form-errors field with the JSON stringified form errors
-                const hiddenField = document.createElement('input');
-                hiddenField.type = 'hidden';
-                hiddenField.name = 'form-errors';
-                hiddenField.value = JSON.stringify(formErrors);
-                form.appendChild(hiddenField);
-
-                // Proceed with the submission if there are no errors
-                if (formErrors.length === 0) {
-                    form.submit();
-                }
-            });
-        });
-
-        // Additional CSS for the flash effect
-        document.head.insertAdjacentHTML('beforeend', `<style>
-            .error-flash {
-                animation: flash-error 0.3s;
-            }
-            @keyframes flash-error {
-                50% { background-color: #ffcccc; }
-            }
-        </style>`);
-
-
-    </script>
 
 </body>
 </html>
