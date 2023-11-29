@@ -251,21 +251,13 @@
 
                 document.getElementById('form-errors').value = JSON.stringify(formErrors);
 
-                // Add the form-errors field with the JSON stringified form errors
-                const hiddenField = document.createElement('input');
-                hiddenField.type = 'hidden';
-                hiddenField.name = 'form-errors';
-                hiddenField.value = JSON.stringify(formErrors);
-                form.appendChild(hiddenField);
-
-                // Proceed with the submission if there are no errors
                 if (formErrors.length === 0) {
                     form.submit();
                 }
             });
         });
 
-        // Additional CSS for the flash effect
+
         document.head.insertAdjacentHTML('beforeend', `<style>
             .error-flash {
                 animation: flash-error 0.3s;
