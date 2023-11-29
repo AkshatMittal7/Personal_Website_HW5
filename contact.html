@@ -102,10 +102,32 @@
         @keyframes flash-error {
             50% { background-color: #ffcccc; }
         }
+
+        :root {
+        --background-color: #ffffff; /* white */
+        --text-color: #000000; /* black */
+        }
+
+        /* Dark Theme Variables */
+        [data-theme="dark"] {
+            --background-color: #363537; /* dark gray */
+            --text-color: #FAFAFA; /* off-white */
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            /* ... other styles ... */
+        }
+
     </style>
 </head>
 
 <body>
+
+    <noscript>
+        <p>JavaScript is not enabled. The theme switcher is not available, and the default light theme is used.</p>
+    </noscript>
 
     <header>
         <h1>Welcome to Akshat Mittal's Portfolio</h1>
@@ -115,6 +137,7 @@
             <a href="portfolio.html">Portfolio</a> |
             <a href="contact.html">Contact</a>
         </nav>
+        <button id="theme-toggle">Toggle Theme</button>
     </header>
 
     <main>
@@ -269,6 +292,26 @@
                 50% { background-color: #ffcccc; }
             }
         </style>`);
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+        const themeToggle = document.getElementById('theme-toggle');
+        const currentTheme = localStorage.getItem('theme') || 'light';
+
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const theme = document.documentElement.getAttribute('data-theme');
+            if (theme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    });
 
 
     </script>
