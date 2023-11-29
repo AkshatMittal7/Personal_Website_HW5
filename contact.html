@@ -78,6 +78,22 @@
                 font-size: calc(var(--font-size-base) * 1.2); /* Using calc with CSS Variable */
             }
         }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        form label, form input, form textarea, form button {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        form output {
+            margin-top: 1rem;
+            color: red;
+        }
     </style>
 </head>
 
@@ -96,6 +112,7 @@
     <main>
         <section>
             <h2>Contact Me</h2>
+            <!--
             <form action="path_to_server_script" method="post">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name">
@@ -111,6 +128,24 @@
                 <label for="message">Message:</label>
                 <textarea id="message" name="message"></textarea>
                 <button type="submit">Submit</button>
+            </form>
+            -->
+            <form action="https://httpbin.org/post" method="post" id="contactForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+    
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+    
+                <label for="comments">Comments:</label>
+                <textarea id="comments" name="comments" required></textarea>
+    
+                <input type="hidden" name="possible_bot" value="true">
+    
+                <button type="submit">Submit</button>
+    
+                <output id="errorOutput"></output>
+                <output id="infoOutput"></output>
             </form>
         </section>
 
