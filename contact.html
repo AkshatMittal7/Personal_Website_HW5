@@ -120,6 +120,16 @@
             /* ... other styles ... */
         }
 
+        .rating-star {
+        cursor: pointer;
+        font-size: 2rem; /* Adjust size as needed */
+        color: grey; /* Default star color */
+        }
+
+        .rating-star:hover {
+        color: gold; /* Hover star color */
+        }
+
     </style>
 </head>
 
@@ -323,7 +333,45 @@
             }
         });
     });
+        document.addEventListener('DOMContentLoaded', (event) => {
+        // Ensure stars are not added multiple times
+        if (!document.querySelector('.rating-stars-container')) {
+            const ratingInput = document.querySelector('#rating');
+            const maxRating = parseInt(ratingInput.max);
+            const ratingWidget = document.querySelector('rating-widget');
+            const form = ratingWidget.querySelector('form');
 
+            let starsHtml = '';
+            for (let i = 1; i <= maxRating; i++) {
+                starsHtml += `<span class="rating-star" data-value="${i}">&#9733;</span>`;
+            }
+
+            const starsContainer = document.createElement('div');
+            starsContainer.classList.add('rating-stars-container');
+            starsContainer.innerHTML = starsHtml;
+            form.insertBefore(starsContainer, form.querySelector('button'));
+            ratingInput.remove();
+
+            starsContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('rating-star')) {
+                    const value = e.target.dataset.value;
+                    document.querySelectorAll('.rating-star').forEach(star => {
+                        star.style.color = star.dataset.value <= value ? 'gold' : 'grey';
+                    });
+
+                    // Create or update the hidden input value
+                    let hiddenRatingInput = document.querySelector('input[name="rating"]');
+                    if (!hiddenRatingInput) {
+                        hiddenRatingInput = document.createElement('input');
+                        hiddenRatingInput.type = 'hidden';
+                        hiddenRatingInput.name = 'rating';
+                        form.appendChild(hiddenRatingInput);
+                    }
+                    hiddenRatingInput.value = value;
+                    }
+                });
+            }
+        });
 
     </script>
 
