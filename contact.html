@@ -392,7 +392,7 @@
                         text-align: center;
                     }
 
-                    #temperature, #conditions, #windSpeed, #humidity{
+                    #temperature, #conditions, #windSpeed, #humidity, #maxTemperature, #minTemperature, #skyCover, #windChill, #windDirection, #dewpoint{
                         /* Styles for temperature and conditions */
                         margin: 5px 0;
                         font-size: 1.2em;
@@ -406,9 +406,15 @@
                 </style>
                 <div id="weather">
                     <p id="temperature"></p>
+                    <p id="maxTemperature"></p>
+                    <p id="minTemperature"></p>
                     <p id="conditions"></p>
+                    <p id="skyCover"></p>
                     <img id="icon" src="" alt="Weather Icon"/>
-                    <p id="windSpeed"></p>
+                    <p id="windSpeed"></p>              
+                    <p id="windChill"></p>   
+                    <p id="windDirection"></p>
+                    <p id="dewpoint"></p>
                     <p id="humidity"></p>
                 </div>
 
@@ -437,10 +443,17 @@
                 .then(data => {
                     // Update the widget with the weather data
                     const currentForecast = data.properties.periods[0];
+                    const tempUnit = currentForecast.temperatureUnit;
                     this.shadowRoot.querySelector('#temperature').textContent = `Temperature: ${currentForecast.temperature} ${currentForecast.temperatureUnit}`;
+                    this.shadowRoot.querySelector('#maxTemperature').textContent = `High: ${currentForecast.maxTemperature} ${tempUnit}`;
+                    this.shadowRoot.querySelector('#minTemperature').textContent = `Low: ${currentForecast.minTemperature} ${tempUnit}`;
                     this.shadowRoot.querySelector('#conditions').textContent = `Conditions: ${currentForecast.shortForecast}`;
+                    this.shadowRoot.querySelector('#skyCover').textContent = `Sky Cover: ${currentForecast.skyCover}%`;
                     this.shadowRoot.querySelector('#icon').src = currentForecast.icon;
                     this.shadowRoot.querySelector('#windSpeed').textContent = `Wind Speed: ${currentForecast.windSpeed}`;
+                    this.shadowRoot.querySelector('#windChill').textContent = `Wind Chill: ${currentForecast.windChill} ${tempUnit}`;
+                    this.shadowRoot.querySelector('#windDirection').textContent = `Wind Direction: ${currentForecast.windDirection}°`;
+                    this.shadowRoot.querySelector('#dewpoint').textContent = `Dewpoint: ${currentForecast.dewpoint} ${tempUnit}`;
                     const humidityValue = currentForecast.relativeHumidity.value || 'N/A';
                     this.shadowRoot.querySelector('#humidity').textContent = `Humidity: ${humidityValue}%`;
                 })
