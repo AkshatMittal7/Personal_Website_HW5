@@ -444,9 +444,11 @@
                     // Update the widget with the weather data
                     const currentForecast = data.properties.periods[0];
                     const tempUnit = currentForecast.temperatureUnit;
+                    const maxTemp = currentForecast.maxTemperature ? `${currentForecast.maxTemperature} ${currentForecast.temperatureUnit}` : 'N/A';
+                    const minTemp = currentForecast.minTemperature ? `${currentForecast.minTemperature} ${currentForecast.temperatureUnit}` : 'N/A';
                     this.shadowRoot.querySelector('#temperature').textContent = `Temperature: ${currentForecast.temperature} ${currentForecast.temperatureUnit}`;
-                    this.shadowRoot.querySelector('#maxTemperature').textContent = `High: ${currentForecast.maxTemperature || 'N/A'} ${currentForecast.temperatureUnit || ''}`;
-                    this.shadowRoot.querySelector('#minTemperature').textContent = `Low: ${currentForecast.minTemperature || 'N/A'} ${currentForecast.temperatureUnit || ''}`;
+                    this.shadowRoot.querySelector('#maxTemperature').textContent = `High: ${maxTemp}`;
+                    this.shadowRoot.querySelector('#minTemperature').textContent = `Low: ${minTemp}`;
                     this.shadowRoot.querySelector('#conditions').textContent = `Conditions: ${currentForecast.shortForecast}`;
                     this.shadowRoot.querySelector('#skyCover').textContent = `Sky Cover: ${currentForecast.skyCover || 'N/A'}%`;
                     this.shadowRoot.querySelector('#icon').src = currentForecast.icon;
