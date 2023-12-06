@@ -422,21 +422,30 @@
             }
 
             fetchWeather() {
-                // Use Fetch API to get weather data
-                // For example purposes, I'm using a placeholder URL
-                fetch('https://api.weather.gov/gridpoints/SGX/114,33/forecast')
+                // Fetch metadata to get the forecast URL
+                fetch('https://api.weather.gov/points/32.8801,-117.2340')
+                .then(response => response.json())
+                .then(data => {
+                    // Extract forecast URL from metadata
+                    const forecastUrl = data.properties.forecast;
+
+                    // Fetch the actual weather forecast data
+                    return fetch(forecastUrl);
+                })
                 .then(response => response.json())
                 .then(data => {
                     // Update the widget with the weather data
-                    this.shadowRoot.querySelector('#temperature').textContent = `Temperature: ${data.properties.periods[0].temperature} ${data.properties.periods[0].temperatureUnit}`;
-                    this.shadowRoot.querySelector('#conditions').textContent = `Conditions: ${data.properties.periods[0].shortForecast}`;
-                    this.shadowRoot.querySelector('#icon').src = data.properties.periods[0].icon;
+                    const currentForecast = data.properties.periods[0];
+                    this.shadowRoot.querySelector('#temperature').textContent = `Temperature: ${currentForecast.temperature} ${currentForecast.temperatureUnit}`;
+                    this.shadowRoot.querySelector('#conditions').textContent = `Conditions: ${currentForecast.shortForecast}`;
+                    this.shadowRoot.querySelector('#icon').src = currentForecast.icon;
                 })
                 .catch(() => {
                     // Handle errors and show the unavailable message
                     this.shadowRoot.querySelector('#weather').innerHTML = `<p>Current Weather Conditions Unavailable</p>`;
                 });
             }
+
         }
 
         customElements.define('weather-widget', WeatherWidget);
