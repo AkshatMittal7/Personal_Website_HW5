@@ -441,7 +441,8 @@
                     this.shadowRoot.querySelector('#conditions').textContent = `Conditions: ${currentForecast.shortForecast}`;
                     this.shadowRoot.querySelector('#icon').src = currentForecast.icon;
                     this.shadowRoot.querySelector('#windSpeed').textContent = `Wind Speed: ${currentForecast.windSpeed}`;
-                    this.shadowRoot.querySelector('#humidity').textContent = `Humidity: ${currentForecast.relativeHumidity}%`;
+                    const humidityValue = currentForecast.relativeHumidity.value || 'N/A';
+                    this.shadowRoot.querySelector('#humidity').textContent = `Humidity: ${humidityValue}%`;
                 })
                 .catch(() => {
                     // Handle errors and show the unavailable message
