@@ -445,15 +445,15 @@
                     const currentForecast = data.properties.periods[0];
                     const tempUnit = currentForecast.temperatureUnit;
                     this.shadowRoot.querySelector('#temperature').textContent = `Temperature: ${currentForecast.temperature} ${currentForecast.temperatureUnit}`;
-                    this.shadowRoot.querySelector('#maxTemperature').textContent = `High: ${currentForecast.maxTemperature} ${tempUnit}`;
-                    this.shadowRoot.querySelector('#minTemperature').textContent = `Low: ${currentForecast.minTemperature} ${tempUnit}`;
+                    this.shadowRoot.querySelector('#maxTemperature').textContent = `High: ${currentForecast.maxTemperature || 'N/A'} ${currentForecast.temperatureUnit || ''}`;
+                    this.shadowRoot.querySelector('#minTemperature').textContent = `Low: ${currentForecast.minTemperature || 'N/A'} ${currentForecast.temperatureUnit || ''}`;
                     this.shadowRoot.querySelector('#conditions').textContent = `Conditions: ${currentForecast.shortForecast}`;
-                    this.shadowRoot.querySelector('#skyCover').textContent = `Sky Cover: ${currentForecast.skyCover}%`;
+                    this.shadowRoot.querySelector('#skyCover').textContent = `Sky Cover: ${currentForecast.skyCover || 'N/A'}%`;
                     this.shadowRoot.querySelector('#icon').src = currentForecast.icon;
                     this.shadowRoot.querySelector('#windSpeed').textContent = `Wind Speed: ${currentForecast.windSpeed}`;
-                    this.shadowRoot.querySelector('#windChill').textContent = `Wind Chill: ${currentForecast.windChill} ${tempUnit}`;
+                    this.shadowRoot.querySelector('#windChill').textContent = `Wind Chill: ${currentForecast.windChill || 'N/A'} ${currentForecast.temperatureUnit || ''}`;
                     this.shadowRoot.querySelector('#windDirection').textContent = `Wind Direction: ${currentForecast.windDirection}°`;
-                    this.shadowRoot.querySelector('#dewpoint').textContent = `Dewpoint: ${currentForecast.dewpoint} ${tempUnit}`;
+                    this.shadowRoot.querySelector('#dewpoint').textContent = `Dewpoint: ${typeof currentForecast.dewpoint === 'object' ? currentForecast.dewpoint.value : currentForecast.dewpoint || 'N/A'} ${currentForecast.temperatureUnit || ''}`;
                     const humidityValue = currentForecast.relativeHumidity.value || 'N/A';
                     this.shadowRoot.querySelector('#humidity').textContent = `Humidity: ${humidityValue}%`;
                 })
