@@ -231,6 +231,11 @@
 
     </main>
 
+    <section>
+        <h2>Weather at UCSD</h2>
+        <weather-widget></weather-widget>
+    </section>
+
     <footer>
         <p>Connect with me on <a href="https://www.linkedin.com/in/akshatmittal15/">LinkedIn</a> or 
                     <a href="https://github.com/AkshatMittal7">GitHub</a>.</p>
@@ -372,6 +377,70 @@
                 });
             }
         });
+
+        class WeatherWidget extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({ mode: 'open' });
+                this.shadowRoot.innerHTML = `
+                <style>
+                    #weather {
+                        /* Styles for the weather container */
+                        padding: 10px;
+                        background-color: #f0f0f0;
+                        border-radius: 5px;
+                        text-align: center;
+                    }
+
+                    #temperature, #conditions {
+                        /* Styles for temperature and conditions */
+                        margin: 5px 0;
+                        font-size: 1.2em;
+                    }
+
+                    #icon {
+                        /* Styles for the weather icon */
+                        width: 50px;
+                        height: 50px;
+                    }
+                </style>
+                <div id="weather">
+                    <p id="temperature"></p>
+                    <p id="conditions"></p>
+                    <img id="icon" src="" alt="Weather Icon"/>
+                    <!-- Add more elements for additional data like wind speed, humidity, etc. -->
+                </div>
+
+                <noscript>
+                    <p>Current Weather Conditions Unavailable</p>
+                </noscript>
+                `;
+            }
+
+            connectedCallback() {
+                this.fetchWeather();
+            }
+
+            fetchWeather() {
+                // Use Fetch API to get weather data
+                // For example purposes, I'm using a placeholder URL
+                fetch('https://api.weather.gov/gridpoints/SGX/114,33/forecast')
+                .then(response => response.json())
+                .then(data => {
+                    // Update the widget with the weather data
+                    this.shadowRoot.querySelector('#temperature').textContent = `Temperature: ${data.properties.periods[0].temperature} ${data.properties.periods[0].temperatureUnit}`;
+                    this.shadowRoot.querySelector('#conditions').textContent = `Conditions: ${data.properties.periods[0].shortForecast}`;
+                    this.shadowRoot.querySelector('#icon').src = data.properties.periods[0].icon;
+                })
+                .catch(() => {
+                    // Handle errors and show the unavailable message
+                    this.shadowRoot.querySelector('#weather').innerHTML = `<p>Current Weather Conditions Unavailable</p>`;
+                });
+            }
+        }
+
+        customElements.define('weather-widget', WeatherWidget);
+
 
     </script>
 
