@@ -392,7 +392,7 @@
                         text-align: center;
                     }
 
-                    #temperature, #conditions {
+                    #temperature, #conditions, #windSpeed, #humidity{
                         /* Styles for temperature and conditions */
                         margin: 5px 0;
                         font-size: 1.2em;
@@ -408,7 +408,8 @@
                     <p id="temperature"></p>
                     <p id="conditions"></p>
                     <img id="icon" src="" alt="Weather Icon"/>
-                    <!-- Add more elements for additional data like wind speed, humidity, etc. -->
+                    <p id="windSpeed"></p>
+                    <p id="humidity"></p>
                 </div>
 
                 <noscript>
@@ -439,6 +440,8 @@
                     this.shadowRoot.querySelector('#temperature').textContent = `Temperature: ${currentForecast.temperature} ${currentForecast.temperatureUnit}`;
                     this.shadowRoot.querySelector('#conditions').textContent = `Conditions: ${currentForecast.shortForecast}`;
                     this.shadowRoot.querySelector('#icon').src = currentForecast.icon;
+                    this.shadowRoot.querySelector('#windSpeed').textContent = `Wind Speed: ${currentForecast.windSpeed}`;
+                    this.shadowRoot.querySelector('#humidity').textContent = `Humidity: ${currentForecast.relativeHumidity}%`;
                 })
                 .catch(() => {
                     // Handle errors and show the unavailable message
