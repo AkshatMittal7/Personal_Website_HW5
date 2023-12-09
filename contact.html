@@ -120,15 +120,24 @@
             /* ... other styles ... */
         }
 
-        .rating-star {
-        cursor: pointer;
-        font-size: 2rem; /* Adjust size as needed */
-        color: grey; /* Default star color */
+        .rating-stars-container {
+            display: inline-flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
         }
 
-        .rating-star:hover,
-        .rating-star:hover ~ .rating-star {
+        .rating-star {
+            cursor: pointer;
+            font-size: 2rem;
+            color: grey;
+        }
+
+        .rating-stars-container:hover .rating-star {
             color: gold;
+        }
+
+        .rating-star:hover ~ .rating-star {
+            color: grey;
         }
 
     </style>
