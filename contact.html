@@ -344,7 +344,28 @@
             const ratingInput = document.querySelector('#rating');
             const maxRating = parseInt(ratingInput.max);
             const ratingWidget = document.querySelector('rating-widget');
-            const form = ratingWidget.querySelector('form');
+            if (ratingWidget) {
+                ratingWidget.addEventListener('click', function (e) {
+                    if (e.target.classList.contains('rating-star')) {
+                        const ratingValue = parseInt(e.target.dataset.value);
+                        submitRating(ratingValue);
+                    }
+                });
+            }
+            //const form = ratingWidget.querySelector('form');
+
+            function submitRating(value) {
+                let message;
+                if (value >= 4) {
+                    message = `Thanks for the high rating of ${value} stars! We're glad you're happy.`;
+                } else if (value === 3) {
+                    message = `Thank you for the 3-star rating. We appreciate your feedback and will work on improvements.`;
+                } else if (value <= 2) {
+                    message = `We're sorry to hear that you only rated us ${value} stars. We'll strive to do better.`;
+                }
+            
+                alert(message);
+            }
 
             let starsHtml = '';
             for (let i = 1; i <= maxRating; i++) {
