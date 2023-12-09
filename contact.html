@@ -121,9 +121,9 @@
         }
 
         .rating-star {
-            cursor: pointer;
-            font-size: 2rem; /* Adjust size as needed */
-            color: grey; /* Default star color */
+        cursor: pointer;
+        font-size: 2rem; /* Adjust size as needed */
+        color: grey; /* Default star color */
         }
 
         .rating-star:hover {
@@ -148,12 +148,6 @@
             <input type="number" id="rating" name="rating" min="1" max="5" value="0" required>
             <button type="submit">Submit</button>
         </form>
-    </rating-widget>
-
-    
-    <rating-widget>
-        <div class="rating-stars-container"></div>
-        <button type="submit" style="display:none;">Submit</button>
     </rating-widget>
 
     <header>
@@ -348,50 +342,41 @@
         // Ensure stars are not added multiple times
         if (!document.querySelector('.rating-stars-container')) {
             const ratingInput = document.querySelector('#rating');
-            //const maxRating = parseInt(ratingInput.max);
+            const maxRating = parseInt(ratingInput.max);
             const ratingWidget = document.querySelector('rating-widget');
+            const form = ratingWidget.querySelector('form');
 
-            const starsContainer = document.querySelector('.rating-stars-container');
-            const ratingMessageDiv = document.getElementById('rating-message');
-            const maxRating = 5;
             let starsHtml = '';
             for (let i = 1; i <= maxRating; i++) {
                 starsHtml += `<span class="rating-star" data-value="${i}">&#9733;</span>`;
             }
+
+            const starsContainer = document.createElement('div');
+            starsContainer.classList.add('rating-stars-container');
             starsContainer.innerHTML = starsHtml;
-            ratingInput.style.display = 'none';
+            form.insertBefore(starsContainer, form.querySelector('button'));
+            ratingInput.remove();
 
-            starsContainer.addEventListener('click', function (e) {
+            starsContainer.addEventListener('click', (e) => {
                 if (e.target.classList.contains('rating-star')) {
-                    const ratingValue = parseInt(e.target.dataset.value);
-                    submitRating(ratingValue);
-                    updateStarsDisplay(ratingValue);
-                }
-            });
+                    const value = e.target.dataset.value;
+                    document.querySelectorAll('.rating-star').forEach(star => {
+                        star.style.color = star.dataset.value <= value ? 'gold' : 'grey';
+                    });
 
-            function submitRating(value) {
-                let message;
-                if (value >= 4) {
-                    message = `Thanks for the high rating of ${value} stars! We're glad you're happy.`;
-                } else if (value === 3) {
-                    message = `Thank you for the 3-star rating. We appreciate your feedback and will work on improvements.`;
-                } else if (value <= 2) {
-                    message = `We're sorry to hear that you only rated us ${value} stars. We'll strive to do better.`;
-                }
-                ratingInput.value = value;
-                alert(message);
-            }
-
-            function updateStarsDisplay(value) {
-                document.querySelectorAll('.rating-star').forEach(star => {
-                    star.style.color = star.dataset.value <= value ? 'gold' : 'grey';
+                    // Create or update the hidden input value
+                    let hiddenRatingInput = document.querySelector('input[name="rating"]');
+                    if (!hiddenRatingInput) {
+                        hiddenRatingInput = document.createElement('input');
+                        hiddenRatingInput.type = 'hidden';
+                        hiddenRatingInput.name = 'rating';
+                        form.appendChild(hiddenRatingInput);
+                    }
+                    hiddenRatingInput.value = value;
+                    }
                 });
             }
-
-        }
-
         });
-        
 
         class WeatherWidget extends HTMLElement {
             constructor() {
