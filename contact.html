@@ -340,12 +340,7 @@
     });
         document.addEventListener('DOMContentLoaded', (event) => {
         // Ensure stars are not added multiple times
-        if (!document.querySelector('.rating-stars-container')) {
-            const ratingInput = document.querySelector('#rating');
-            const maxRating = parseInt(ratingInput.max);
-            const ratingWidget = document.querySelector('rating-widget');
-            const form = ratingWidget.querySelector('form');
-
+        const createStars = (maxRating, ratingWidget) => {
             let starsHtml = '';
             for (let i = 1; i <= maxRating; i++) {
                 starsHtml += `<span class="rating-star" data-value="${i}">&#9733;</span>`;
@@ -354,29 +349,67 @@
             const starsContainer = document.createElement('div');
             starsContainer.classList.add('rating-stars-container');
             starsContainer.innerHTML = starsHtml;
-            form.insertBefore(starsContainer, form.querySelector('button'));
-            ratingInput.remove();
+            ratingWidget.appendChild(starsContainer);
 
-            starsContainer.addEventListener('click', (e) => {
-                if (e.target.classList.contains('rating-star')) {
-                    const value = e.target.dataset.value;
-                    document.querySelectorAll('.rating-star').forEach(star => {
-                        star.style.color = star.dataset.value <= value ? 'gold' : 'grey';
-                    });
+            return starsContainer;
+        };
 
-                    // Create or update the hidden input value
-                    let hiddenRatingInput = document.querySelector('input[name="rating"]');
-                    if (!hiddenRatingInput) {
-                        hiddenRatingInput = document.createElement('input');
-                        hiddenRatingInput.type = 'hidden';
-                        hiddenRatingInput.name = 'rating';
-                        form.appendChild(hiddenRatingInput);
-                    }
-                    hiddenRatingInput.value = value;
-                    }
-                });
+        const ratingWidget = document.querySelector('rating-widget');
+        const form = ratingWidget.querySelector('form');
+        const ratingInput = form.querySelector('#rating');
+        const maxRating = parseInt(ratingInput.max) || 5;
+        const starsContainer = createStars(maxRating, ratingWidget);
+        ratingInput.style.display = 'none'; // Hide the original input
+
+        starsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('rating-star')) {
+                const value = e.target.dataset.value;
+                submitRating(value);
+                updateStarsDisplay(value, starsContainer);
             }
         });
+
+        const submitRating = (value) => {
+            fetch('https://httpbin.org/post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Sent-By': 'JS'
+                },
+                body: `rating=${value}&question=How satisfied are you?&sentBy=JS`
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                displayMessage(value, maxRating);
+            })
+            .catch(error => console.error('Error:', error));
+        };
+
+        const updateStarsDisplay = (value, container) => {
+            container.querySelectorAll('.rating-star').forEach(star => {
+                star.style.color = star.dataset.value <= value ? 'gold' : 'grey';
+            });
+        };
+
+        const displayMessage = (rating, maxRating) => {
+            const ratingPercentage = (rating / maxRating) * 100;
+            let message = '';
+
+            if (ratingPercentage >= 80) {
+                message = `Thanks for the high rating of ${rating} stars! We're glad you're happy.`;
+            } else {
+                message = `We're sorry to hear that you only rated us ${rating} stars. We'll strive to do better.`;
+            }
+
+            const messageDiv = document.createElement('div');
+            messageDiv.textContent = message;
+            ratingWidget.appendChild(messageDiv);
+        };
+
+        // Other event listeners and functionality...
+    });
+    
 
         class WeatherWidget extends HTMLElement {
             constructor() {
