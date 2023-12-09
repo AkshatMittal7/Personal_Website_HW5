@@ -359,6 +359,7 @@
                 starsHtml += `<span class="rating-star" data-value="${i}">&#9733;</span>`;
             }
             starsContainer.innerHTML = starsHtml;
+            ratingInput.style.display = 'none';
 
             starsContainer.addEventListener('click', function (e) {
                 if (e.target.classList.contains('rating-star')) {
@@ -377,7 +378,8 @@
                 } else if (value <= 2) {
                     message = `We're sorry to hear that you only rated us ${value} stars. We'll strive to do better.`;
                 }
-                ratingMessageDiv.textContent = message;
+                ratingInput.value = value;
+                alert(message);
             }
 
             function updateStarsDisplay(value) {
